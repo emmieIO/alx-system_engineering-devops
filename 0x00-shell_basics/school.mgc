@@ -1,2 +1,1 @@
-#!/bin/bash
-grep -rl '^school' ./
+0 string school School
