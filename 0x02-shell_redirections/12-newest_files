@@ -1,2 +1,2 @@
 #!/bin/bash
-ls l . | sort -k 9 | find . f | head
+find . f | sort -k 9 | head
