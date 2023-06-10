@@ -1,2 +1,2 @@
-#1/bin/bash
-ls  l  . |  sort -k 9 | find . f | head
+#!/bin/bash
+ls l . | sort -k 9 | find . f | head
