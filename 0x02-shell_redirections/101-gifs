@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type f -name '*.gif' | awk -F/ '{print $NF}' | sed 's/\.gif$//' | LC_COLLATE=C sort -f echo
+find . -type f \( -iname "*.gif" -o -iname ".*.gif" \) | sort | awk -F "/" '{ split($NF, parts, "."); print parts[1] }'
