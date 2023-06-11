@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type f -iname "*.gif" | sort |awk -F "/" '{ split($NF, parts, ".") print parts[1] }
+find . -type f -iname "*.gif" | sort -n |awk -F "/" '{ print $NF }'| awk -F. '{OFS=FS} NF--'
