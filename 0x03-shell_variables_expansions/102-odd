@@ -1,2 +1,2 @@
 #!/bin/bash
-nl -b a | grep -E '^[13579]' | cut -f2-
+grep -n '' | grep -v '.*[02468]:'
