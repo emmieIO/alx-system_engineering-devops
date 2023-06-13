@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -E '^[13579]'|sort
+grep -n '^' | grep -E '^[13579]:' | cut -d':' -f2-
