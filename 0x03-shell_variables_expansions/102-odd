@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -n '^' | grep -E '^[13579]:' | cut -d':' -f2-
+perl -lne 'print if $ % 2==1'
