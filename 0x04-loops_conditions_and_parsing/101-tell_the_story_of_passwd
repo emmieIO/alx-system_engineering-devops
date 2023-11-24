@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 # Using a while loop with IFS to read and display a fictional story based on /etc/passwd
 
-while IFS=: read -r username _ userid groupid _ home_directory command_shell _
-do
-  # Generate a fictional story for each user
-  echo "The user $username is part of the $groupid gang,"
-  echo "lives in $home_directory and rides $command_shell."
-  echo "USER ID's place is protected by the passcode PASSWORD,"
-  echo "more info about the user here: USER ID INFO"
-  echo "--------------------------"
-done < /etc/passwd
+while IFS=':' read username password uid gid info home shell; do
+  echo "The user $username is part of the $gid gang,"\
+  "lives in $home and rides $shell."\
+  "$uid's place is protected by the passcode $password,"\
+  "more info about the user here: $info"
+done < "/etc/passwd"
