@@ -1,0 +1,18 @@
+#!/bin/bash
+# Initialize a counter
+counter=0
+
+# Using a while loop to display "Best School" 10 times
+while [ $counter -lt 10 ]
+do
+  # Check if it's the 9th iteration
+  if [ $counter -eq 8 ]
+  then
+    echo "Best School"
+    echo "Hi"
+  else
+    echo "Best School"
+  fi
+
+  ((counter++))
+done
