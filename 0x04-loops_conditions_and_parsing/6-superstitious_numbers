@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Initialize a counter
+counter=1
+
+# Using a while loop to display messages based on the loop iteration
+while [ $counter -le 10 ]
+do
+  # Check for specific iterations
+  if [ $counter -eq 4 ]
+  then
+    echo "bad luck"
+  elif [ $counter -eq 8 ]
+  then
+    echo "good luck"
+  else
+    echo "Best School"
+  fi
+
+  ((counter++))
+done
