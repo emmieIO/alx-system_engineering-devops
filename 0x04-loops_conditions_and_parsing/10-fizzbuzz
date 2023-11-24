@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
-# Shell Logic for the famous fizz buzz interview question.
-for num in {1..100}
+# Using a for loop to display numbers from 1 to 100
+for ((i=1; i<=100; i++))
 do
-  if (( num % 3 == 0 && num % 5 == 0 ))
-  then
+  # Check conditions and display accordingly
+  if ((i % 3 == 0)) && ((i % 5 == 0)); then
     echo "FizzBuzz"
-  elif (( num % 3 == 0 ))
-  then
+  elif ((i % 3 == 0)); then
     echo "Fizz"
-  elif (( num % 5 == 0 ))
-  then
+  elif ((i % 5 == 0)); then
     echo "Buzz"
   else
-    echo "$num"
+    echo $i
   fi
 done
