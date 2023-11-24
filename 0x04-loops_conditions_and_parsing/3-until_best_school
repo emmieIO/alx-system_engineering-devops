@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Initialize a counter
 counter=0
 
