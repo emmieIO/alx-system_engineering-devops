@@ -6,4 +6,4 @@
 bg_process_pid=$!
 
 # Send a signal to terminate the process
-kill -TERM "$bg_process_pid"
+kill "$bg_process_pid"
