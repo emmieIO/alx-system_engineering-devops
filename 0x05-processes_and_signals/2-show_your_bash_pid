@@ -2,5 +2,11 @@
 
 # Using ps to find lines containing the word "bash" and extracting the PID
 # shellcheck disable=SC2009
-ps aux | grep bash | grep -v grep | awk '{print $2}'
+
+# Get the current script name
+script_name=$(basename "$0")
+
+# Using ps to find lines containing the word "bash" and extracting the PID
+# shellcheck disable=SC2009
+ps aux | grep '[b]ash' | grep -v "grep" | grep -v "$script_name" | awk '{print $1, $2, $8, $9, $10, $11, $12}'
 
