@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-
 # Using ps to find lines containing the word "bash" and extracting the PID
 # shellcheck disable=SC2009
 
-# Get the current script name
-script_name=$(basename "$0")
-
-# Using ps to find lines containing the word "bash" and extracting the PID
-# shellcheck disable=SC2009
 ps aux | grep bash | grep -v grep
