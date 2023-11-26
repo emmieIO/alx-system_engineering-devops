@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
 #Show the bash pid in simpler form
 
-
-for pid in $(pgrep -f bash); do
-  process_name=$(ps -p "$pid" -o comm=)
-  echo "$pid $process_name"
-done | grep bash | grep -v "$current_script_pid"
+pgrep bash -l
