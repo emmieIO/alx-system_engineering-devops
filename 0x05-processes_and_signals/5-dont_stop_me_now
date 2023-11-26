@@ -3,7 +3,7 @@
 ./4-to_infinity_and_beyond &&
 
 # Get the PID of the background process
-bg_process_pid=$!
+bg_process_pid=$$
 
 # Send a signal to terminate the process
 kill "$bg_process_pid"
