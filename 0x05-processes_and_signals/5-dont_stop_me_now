@@ -4,4 +4,4 @@
 pid=$(pgrep -x "4-to_infinity_and_beyond")
 
 # Send a termination signal (SIGTERM) to the process
-kill -s SIGTERM "$pid"
+kill "$pid"
