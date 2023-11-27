@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 # Start the process
-./4-to_infinity_and_beyond && kill $!
+# Find the process ID (PID) of the '4-to_infinity_and_beyond' process
+pid=$(pgrep -x "4-to_infinity_and_beyond")
+
+# Send a termination signal (SIGTERM) to the process
+kill -s SIGTERM "$pid"
