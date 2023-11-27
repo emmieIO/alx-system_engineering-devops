@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Function to clean up and exit
+cleanup_and_exit() {
+    echo "Cleaning up and exiting..."
+    rm -f /var/run/myscript.pid
+    exit 0
+}
+
+# Trap signals and associate them with the cleanup_and_exit function
+trap 'cleanup_and_exit' SIGQUIT SIGTERM
+
+# Function to handle SIGINT signal
+sigint_handler() {
+    echo "Y U no love me?!"
+}
+
+# Trap SIGINT signal and associate it with the sigint_handler function
+trap 'sigint_handler' SIGINT
+
+# Function to handle SIGTERM signal
+sigterm_handler() {
+    echo "I hate the kill command"
+}
+
+# Trap SIGTERM signal and associate it with the sigterm_handler function
+trap 'sigterm_handler' SIGTERM
+
+# Create the file /var/run/myscript.pid containing its PID
+echo $$ > /var/run/myscript.pid
+
+# Display "To infinity and beyond" indefinitely
+while true; do
+    echo "To infinity and beyond"
+    sleep 1
+done
