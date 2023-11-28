@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 # matches School 
-school = "/School/"
+puts ARGV[0].scan(/School/).join
