@@ -5,4 +5,4 @@
 PORT=98
 
 # Listen on the specified port
-sudo nc -l $PORT
+nc -l $PORT
