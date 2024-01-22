@@ -16,7 +16,7 @@ printf %s "server {
     index  index.html index.htm;
 
     location /redirect_me {
-        return 301 http://anypage.com/ permanent;
+        return 301 http://anypage.com/;
     }
 }" > /etc/nginx/sites-available/default
 
