@@ -1,52 +1,35 @@
-# File: nginx_setup.pp
+#!/usr/bin/env bash
+# Installs Nginx with the following configurations:
+#+    Listens on port 80.
+#+    Returns a page containing "Hello World!" when queried
+#+     at the root with a curl GET request.
+# Configures /redirect_me as a "301 Moved Permanently".
+# Includes a custom 404 page containing "Page Not Found".
 
-# Install Nginx package
-package { 'nginx':
-  ensure => 'installed',
-}
+apt-get update
+apt-get install -y nginx
 
-# Ensure Nginx service is running and enabled
-service { 'nginx':
-  ensure  => 'running',
-  enable  => true,
-  require => Package['nginx'],
-}
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+touch /etc/nginx/html/404.html
+echo "Page Not Found!" > /etc/nginx/html/404.html
 
-# Configure Nginx
-file { '/etc/nginx/sites-available/default':
-  ensure  => 'file',
-  content => template('nginx_setup/nginx.conf.erb'),
-  notify  => Service['nginx'],
-}
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
 
-# Create the custom index.html file
-file { '/var/www/html/index.html':
-  ensure  => 'file',
-  content => 'Hello World!',
-  require => Package['nginx'],
-}
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
 
-# Create the redirect configuration for /redirect_me
-file { '/etc/nginx/sites-available/redirect_me':
-  ensure  => 'file',
-  content => template('nginx_setup/redirect_me.conf.erb'),
-  notify  => Service['nginx'],
-}
+    error_page 404 /404.html;
+    location /404 {
+      root /etc/nginx/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
 
-# Create a symbolic link to enable the redirect configuration
-file { '/etc/nginx/sites-enabled/redirect_me':
-  ensure => 'link',
-  target => '/etc/nginx/sites-available/redirect_me',
-  notify => Service['nginx'],
-}
-
-# Remove the default symlink to prevent conflicts
-file { '/etc/nginx/sites-enabled/default':
-  ensure => 'absent',
-  notify => Service['nginx'],
-}
-
-# Notify Nginx service if any of the Nginx configuration files are changed
-# This triggers a service reload to apply the changes
-Class['nginx'] -> File['/etc/nginx/sites-available/default']
-Class['nginx'] -> File['/etc/nginx/sites-available/redirect_me']
+service nginx restart
