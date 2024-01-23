@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
-# nginx server Installation
-# Update package list and install Nginx
-sudo apt-get update
-sudo apt-get install -y nginx
-# Configure Nginx to listen on port 80
-sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-# Reload Nginx to apply changes
-sudo service nginx reload
-# Create a simple HTML page with the required string
-echo "Hello World!" | sudo tee /var/www/html/index.html
+# Configures an Nginx server so that /redirect_me redirects to another page.
+# The redirection is configured as a "301 Moved Permanently"
+
+apt-get update
+apt-get install -y nginx
+
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
