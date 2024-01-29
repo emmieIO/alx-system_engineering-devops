@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-# Configure Nginx so that its HTTP
-# response contains a custom header (on web-01 and web-02)
-apt-get update
-apt-get install -y nginx
+
 # Update the package list and install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
@@ -10,8 +7,11 @@ sudo apt-get install -y nginx
 # Get the hostname of the server
 hostname=$(hostname)
 
-# Create a custom Nginx configuration file
+# Create a custom Nginx configuration file with the custom header, redirection, and not_found page
 echo "add_header X-Served-By $hostname;" | sudo tee /etc/nginx/conf.d/custom_http_response_header.conf
+echo "error_page 404 /not_found.html;" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
+echo "location = /not_found.html { root /usr/share/nginx/html; }" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
+echo "location /redirect { return 301 https://example.com; }" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
 
 # Restart Nginx to apply the changes
 sudo service nginx restart
