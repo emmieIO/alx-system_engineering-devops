@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Update the package list and install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
@@ -6,11 +7,26 @@ sudo apt-get install -y nginx
 # Get the hostname of the server
 hostname=$(hostname)
 
-# Create a custom Nginx configuration file with the custom header, redirection, and not_found page
-echo "add_header X-Served-By $hostname;" | sudo tee /etc/nginx/conf.d/custom_http_response_header.conf
-echo "error_page 404 /not_found.html;" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
-echo "location = /not_found.html { root /usr/share/nginx/html; }" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
-echo "location /redirect { return 301 https://example.com; }" | sudo tee -a /etc/nginx/conf.d/custom_http_response_header.conf
+# Create a custom Nginx configuration file with the custom header, redirection, not_found page, and custom index page
+cat <<EOL | sudo tee /etc/nginx/conf.d/custom_http_response_header.conf
+add_header X-Served-By $hostname;
+
+location / {
+    index custom_index.html;
+}
+
+error_page 404 /not_found.html;
+location = /not_found.html {
+    root /usr/share/nginx/html;
+}
+
+location /redirect {
+    return 301 https://example.com;
+}
+EOL
+
+# Create a custom index page
+echo "Hello World" | sudo tee /usr/share/nginx/html/custom_index.html
 
 # Restart Nginx to apply the changes
 sudo service nginx restart
