@@ -1,22 +1,16 @@
 # 2-puppet_custom_http_response_header.pp
 
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
+exec {'update':
+  command => '/usr/bin/apt-get update',
 }
-
-# Get the current hostname
-$hostname = $facts['hostname']
-
-# Configure Nginx with custom header
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => "add_header X-Served-By ${hostname};\n",
+-> package {'nginx':
+  ensure => 'present',
 }
-
-# Reload Nginx to apply changes
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/sites-available/default'],
+-> file_line { 'http_header':
+  path  => '/etc/nginx/nginx.conf',
+  match => 'http {',
+  line  => "http {\n\tadd_header X-Served-By \"${hostname}\";",
+}
+-> exec {'run':
+  command => '/usr/sbin/service nginx restart',
 }
