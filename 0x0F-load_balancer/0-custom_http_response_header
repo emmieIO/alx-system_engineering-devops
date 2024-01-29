@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Configure Nginx so that its HTTP
 # response contains a custom header (on web-01 and web-02)
-apt-get update
-apt-get install -y nginx
-
 
 # Get the hostname of the server
 hostname=$(hostname)
@@ -13,7 +10,7 @@ echo "Hello World!" > /usr/share/nginx/html/index.html
 
 
 # Create a custom Nginx configuration file
-echo "add_header X-Served-By $hostname;" | sudo tee /etc/nginx/conf.d/custom_http_response_header.conf
+echo "add_header X-Served-By $hostname;"
 
 echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
 # Restart Nginx to apply the changes
