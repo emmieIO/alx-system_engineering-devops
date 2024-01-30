@@ -1,32 +1,17 @@
 #!/usr/bin/env bash
-# Installs Nginx with the following configurations:
-#+    Listens on port 80.
+# This script configures Nginx to include a custom HTTP response header.
 
-apt-get update
-apt-get install -y nginx
+# Update the package list
+sudo apt-get update
 
-mkdir -p /var/www/html
-touch /var/www/html/index.html
-echo "Holberton School" > /var/www/html/index.html
-touch /var/www/html/404.html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
+# Install Nginx
+sudo apt-get install -y nginx
 
-printf %s "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    add_header X-Served-By $HOSTNAME;
-    root   /var/www/html;
-    index  index.html index.htm;
+# Define the custom header value (hostname of the server)
+HEADER_VALUE=$(hostname)
 
-    location /redirect_me {
-        return 301 http://example.com/;
-    }
+# Configure Nginx to include the custom header
+echo "add_header X-Served-By $HEADER_VALUE;" | sudo tee -a /etc/nginx/sites-available/default
 
-    error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+# Reload Nginx to apply changes
+sudo service nginx reload
