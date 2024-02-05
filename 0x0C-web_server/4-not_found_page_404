@@ -29,7 +29,6 @@ printf %s "server {
     location /404 {
       root /etc/nginx/html;
       internal;
-    }
 }" > /etc/nginx/sites-available/default
 
 service nginx restart
